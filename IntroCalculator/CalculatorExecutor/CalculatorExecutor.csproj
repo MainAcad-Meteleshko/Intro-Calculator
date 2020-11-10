@@ -41,6 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormulaExecutor.cs" />
+    <Compile Include="Models\Enums\FormulaItemType.cs" />
+    <Compile Include="Models\Enums\OperatorType.cs" />
+    <Compile Include="Models\FormulaItemModel.cs" />
+    <Compile Include="Models\FormulaOperandModel.cs" />
+    <Compile Include="Models\FormulaOperatorModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
