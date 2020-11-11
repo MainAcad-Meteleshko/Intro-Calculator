@@ -1,0 +1,111 @@
+﻿@{
+	ViewBag.Title = "Calculator";
+}
+
+<div class="row container">
+	<div class="col-md-7 input-container">
+		<div class="input-group mb-3">
+			<input type="text" id="number" readonly class="form-control" placeholder="Choose number" aria-describedby="basic-addon1">
+			<button type="button" class="btn btn-outline-success	" id="calculate">
+				Посчитать
+			</button>
+		</div>
+	</div>
+	<div class="col-md-7">
+		<div class="row numbers">
+			@for (int i = 1; i < 10; i++)
+			{
+				<div class="col-md-4 button-container">
+					<button type="button" class="btn btn-outline-secondary" id="number-@i">
+						@i
+					</button>
+				</div>
+			}
+			<div class="col-md-12 button-container">
+				<button type="button" class="btn btn-outline-secondary" id="number-0">
+					0
+				</button>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3 actions-container">
+		<div class="col-md-12 button-container">
+			<button type="button" class="btn btn-outline-primary" id="Sum">
+				+
+			</button>
+		</div>
+		<div class="col-md-12 button-container">
+			<button type="button" class="btn btn-outline-primary" id="Diff">
+				-
+			</button>
+		</div>
+		<div class="col-md-12 button-container">
+			<button type="button" class="btn btn-outline-primary" id="Div">
+				/
+			</button>
+		</div>
+		<div class="col-md-12 button-container">
+			<button type="button" class="btn btn-outline-primary" id="Mult">
+				*
+			</button>
+		</div>
+	</div>
+</div>
+
+<style>
+	.button-container {
+		text-align: center;
+	}
+
+	.input-container div {
+		text-align: center;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+		.input-container div input {
+			width: 50%;
+		}
+</style>
+
+<script>
+	$('.btn-outline-secondary').on('click', function ()
+	{
+		var value = $('#number').val() + this.outerText;
+		$('#number').val(value);
+	});
+	$('.btn-outline-primary').on('click', function () {
+		var value = $('#number').val();
+		if (!value) {
+			alert("Введите значение.")
+		} else {
+		var data = {
+			formulaOperator: this.id,
+			formulaOperand: value
+		};
+		$.ajax({
+			type: 'POST',
+			url: '@Url.Action("AddData", "Home")',
+			data: data,
+			success: function () {
+				$('#number').val('');
+				console.log('Success add numer');
+			}
+		});
+		}
+	});
+	$('.btn-outline-success').on('click', function () {
+		var data = {
+			formulaOperand: $('#number').val()
+		};
+		$.ajax({
+			type: 'POST',
+			url: '@Url.Action("Calculate", "Home")',
+			data: data,
+			success: function (result) {
+				alert(result);
+				$('#number').val('');
+			}
+		});
+	});
+</script>
